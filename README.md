@@ -15,7 +15,7 @@ Su propósito es ayudar a los estudiantes a acceder a monitorías, clases y mate
 ---
 
 ## 🛠️ Tecnologías utilizadas
-- **Frontend:** HTML, CSS, TailwindCSS, JavaScript.  
+- **Frontend:** React, TailwindCSS, JavaScript.  
 - **Backend:** Node.js con NestJS.  
 - **Bases de datos:** PostgreSQL & MongoDB.  
 - **Control de versiones:** Git y GitHub.  
