@@ -37,30 +37,33 @@ Este proyecto está bajo la licencia [MIT](LICENSE).
 ---
 
 ## 📂 Estructura inicial del proyecto
-```bash
-learnup/
-├── backend/        # Código del servidor con NestJS
-├── frontend/       # Interfaz web con HTML, CSS, JS, Tailwind
-├── docs/           # Diagramas, documentación y reportes
-└── README.md
+
+    learnup/
+    ├── backend/        # Código del servidor con NestJS
+    ├── frontend/       # Interfaz web con React, JS, Tailwind
+    ├── docs/           # Diagramas, documentación y reportes
+    └── README.md
 
 ▶️ Cómo ejecutar el proyecto
 
-Clonar este repositorio:
 
-git clone https://github.com/iamjohitan/LearnUp.git
-cd LearnUp
-
-
-Instalar dependencias en cada carpeta (backend y frontend):
-
-npm install
+1. Clonar este repositorio:
+   
+   ```bash
+   git clone https://github.com/iamjohitan/LearnUp.git
+   cd LearnUp
 
 
-Levantar el servidor:
+2. Instalar dependencias en cada carpeta (backend y frontend):
+   
+   ```bash
+   npm install
 
-npm run start
 
+3. Levantar el servidor:
+
+   ```bash
+   npm run start
 
 Abrir el navegador en http://localhost:3000
  
