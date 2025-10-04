@@ -50,19 +50,13 @@ npm run start
 
 Abrir el navegador en http://localhost:3000
 
-👥 Equipo
+## 👨‍💻 Integrantes del equipo  
 
-Proyecto desarrollado por estudiantes de la Universidad Santiago de Cali:
-
-@iamjohitan
- – Johan Esneider Lucumí Palacios
-
-@EstebanzZ
- – Esteban Marta Roja
-
-@ErikDussanVelasco
- – Erik Camilo Dussan Velasco
+- Johan Esneider Lucumi Palacios → [@iamjohitan](https://github.com/iamjohitan)  
+- Esteban Marta Roja → [@EstebanzZ](https://github.com/EstebanzZ)  
+- Erik Camilo Dussan Velasco → [@ErikDussanVelasco](https://github.com/ErikDussanVelasco)  
 
 ## 📄 Licencia  
 
-Este proyecto está bajo la licencia **MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles.  
+Este proyecto está bajo la licencia **MIT**. Consulta el archivo [MIT](LICENSE) para más detalles.
+ 
