@@ -32,7 +32,7 @@ Su propósito es ayudar a los estudiantes a acceder a monitorías, clases y mate
 
 ## 📄 Licencia  
 
-Este proyecto está bajo la licencia **MIT**. Consulta el archivo [MIT](LICENSE) para más detalles.
+Este proyecto está bajo la licencia [MIT](LICENSE).
 
 ---
 
