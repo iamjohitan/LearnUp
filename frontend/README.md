@@ -10,14 +10,14 @@ Este directorio contiene el código de la interfaz de usuario de **LearnUp**, de
 ## 📂 Estructura básica
 
 
-frontend/
-├── public/ # Archivos estáticos
-├── src/ # Código fuente de React
-│ ├── assets/ # Imágenes y recursos
-│ ├── App.jsx # Componente principal
-│ └── main.jsx # Punto de entrada
-├── package.json
-└── vite.config.js
+      frontend/
+      ├── public/ # Archivos estáticos
+      ├── src/ # Código fuente de React
+      │ ├── assets/ # Imágenes y recursos
+      │ ├── App.jsx # Componente principal
+      │ └── main.jsx # Punto de entrada
+      ├── package.json
+      └── vite.config.js
 
 
 ## ▶️ Cómo ejecutar
