@@ -1,41 +1,34 @@
-📘 LearnUp
+# 📚 LearnUp
 
-Plataforma educativa diseñada para facilitar el aprendizaje en línea con recursos interactivos, organización de cursos y herramientas de seguimiento del progreso.
+Plataforma web desarrollada como proyecto universitario en la **Universidad Santiago de Cali**.  
+Su propósito es ayudar a los estudiantes a acceder a monitorías, clases y materiales de apoyo, además de permitir que otros compartan sus conocimientos mediante videos, documentos y áreas de estudio.  
 
-👨‍💻 Integrantes del equipo
+---
 
-Johan Esneider Lucumi Palacios → @iamjohitan
+## 🚀 Características principales
+- 🔑 Registro y login de usuarios.  
+- 🎥 Subida y visualización de cursos y clases.  
+- 💬 Foros y comentarios para discusión.  
+- 📊 Seguimiento del progreso del estudiante.  
+- 👨‍🏫 Roles de usuario: estudiantes, profesores y monitores.  
 
-Esteban Marta Roja → @EstebanzZ
+---
 
-Erik Camilo Dussan Velasco → @ErikDussanVelasco
+## 🛠️ Tecnologías utilizadas
+- **Frontend:** HTML, CSS, TailwindCSS, JavaScript.  
+- **Backend:** Node.js con NestJS.  
+- **Bases de datos:** PostgreSQL & MongoDB.  
+- **Control de versiones:** Git y GitHub.  
 
-🚀 Características principales
+---
 
-Gestión de cursos y recursos educativos.
-
-Interfaz moderna y responsiva.
-
-Integración con base de datos.
-
-Documentación clara y organizada.
-
-🛠 Tecnologías utilizadas
-
-Frontend: HTML, CSS, TailwindCSS, JavaScript.
-
-Backend: Node.js con NestJS.
-
-Bases de datos: PostgreSQL & MongoDB.
-
-Control de versiones: Git y GitHub.
-
-📂 Estructura inicial del proyecto
-LearnUp/
-│── backend/    # Código del servidor con NestJS
-│── frontend/   # Interfaz web con HTML, CSS, JS, Tailwind
-│── docs/       # Diagramas, documentación y reportes
-│── README.md   # Documentación principal
+## 📂 Estructura inicial del proyecto
+```bash
+learnup/
+├── backend/        # Código del servidor con NestJS
+├── frontend/       # Interfaz web con HTML, CSS, JS, Tailwind
+├── docs/           # Diagramas, documentación y reportes
+└── README.md
 
 ▶️ Cómo ejecutar el proyecto
 
@@ -50,10 +43,26 @@ Instalar dependencias en cada carpeta (backend y frontend):
 npm install
 
 
-Ejecutar el proyecto:
+Levantar el servidor:
 
 npm run start
 
-📄 Licencia
 
-Este proyecto está bajo la licencia MIT. Consulta el archivo LICENSE para más detalles.
+Abrir el navegador en http://localhost:3000
+
+👥 Equipo
+
+Proyecto desarrollado por estudiantes de la Universidad Santiago de Cali:
+
+@iamjohitan
+ – Johan Esneider Lucumí Palacios
+
+@EstebanzZ
+ – Esteban Marta Roja
+
+@ErikDussanVelasco
+ – Erik Camilo Dussan Velasco
+
+## 📄 Licencia  
+
+Este proyecto está bajo la licencia **MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles.  
