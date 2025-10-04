@@ -22,6 +22,20 @@ Su propósito es ayudar a los estudiantes a acceder a monitorías, clases y mate
 
 ---
 
+## 👨‍💻 Integrantes del equipo  
+
+- Johan Esneider Lucumi Palacios → [@iamjohitan](https://github.com/iamjohitan)  
+- Esteban Marta Roja → [@EstebanzZ](https://github.com/EstebanzZ)  
+- Erik Camilo Dussan Velasco → [@ErikDussanVelasco](https://github.com/ErikDussanVelasco)
+
+---
+
+## 📄 Licencia  
+
+Este proyecto está bajo la licencia **MIT**. Consulta el archivo [MIT](LICENSE) para más detalles.
+
+---
+
 ## 📂 Estructura inicial del proyecto
 ```bash
 learnup/
@@ -49,14 +63,4 @@ npm run start
 
 
 Abrir el navegador en http://localhost:3000
-
-## 👨‍💻 Integrantes del equipo  
-
-- Johan Esneider Lucumi Palacios → [@iamjohitan](https://github.com/iamjohitan)  
-- Esteban Marta Roja → [@EstebanzZ](https://github.com/EstebanzZ)  
-- Erik Camilo Dussan Velasco → [@ErikDussanVelasco](https://github.com/ErikDussanVelasco)  
-
-## 📄 Licencia  
-
-Este proyecto está bajo la licencia **MIT**. Consulta el archivo [MIT](LICENSE) para más detalles.
  
