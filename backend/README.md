@@ -14,13 +14,13 @@ Aquí se maneja la **lógica de negocio**, la **autenticación de usuarios**, la
 ---
 
 ## 📂 Estructura inicial
-backend/
-├── src/ # Código fuente
-│ ├── app.module.ts # Módulo raíz de NestJS
-│ ├── main.ts # Punto de entrada
-│ └── modules/ # Módulos (usuarios, cursos, etc.)
-├── package.json # Dependencias
-└── tsconfig.json # Configuración de TypeScript
+      backend/
+      ├── src/ # Código fuente
+      │ ├── app.module.ts # Módulo raíz de NestJS
+      │ ├── main.ts # Punto de entrada
+      │ └── modules/ # Módulos (usuarios, cursos, etc.)
+      ├── package.json # Dependencias
+      └── tsconfig.json # Configuración de TypeScript
 
 ---
 
@@ -37,3 +37,4 @@ backend/
    
 3. Servidor disponible en:
 👉 http://localhost:3000
+
