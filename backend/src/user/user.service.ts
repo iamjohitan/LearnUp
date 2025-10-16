@@ -12,8 +12,8 @@ export class UserService {
   // MÉTODO PARA INSERTAR UN DOCUMENTO DE PRUEBA
   async createTestUser(): Promise<User> {
     const newUser = new this.userModel({
-      name: 'Usuario de Prueba Guardado',
-      email: `test-${Date.now()}@learnup.com`, // Usamos Date.now() para que el email sea único
+      name: '',
+      email: ``, // Usamos Date.now() para que el email sea único
     });
     return newUser.save();
   }
