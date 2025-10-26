@@ -30,6 +30,7 @@
     "@nestjs/typeorm": "^11.0.0",
     "@supabase/supabase-js": "^2.58.0",
     "@types/bcryptjs": "^2.4.6",
+    "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "mongoose": "^8.19.0",

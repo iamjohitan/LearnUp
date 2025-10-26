@@ -1,12 +1,11 @@
-// src/pages/Register.jsx
+// frontend/src/pages/Register.jsx
 import { useState } from "react";
-import { supabase } from "../lib/supabaseClient";
+import { supabase } from "../lib/supabaseClient"; // Asegúrate de tener este archivo
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar"; // Ajusta la ruta según tu estructura
 
-export default function Register() {
+function Register() {
   const [nombre, setNombre] = useState("");
-  const [email, setEmail] = useState("");
+  const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
   const [mensaje, setMensaje] = useState("");
   const navigate = useNavigate();
@@ -15,39 +14,33 @@ export default function Register() {
     e.preventDefault();
     setMensaje("⏳ Creando cuenta...");
 
-    // Validar correo USC
-    if (!email.endsWith("@usc.edu.co")) {
-      setMensaje("❌ Solo se permiten correos institucionales (@usc.edu.co)");
-      return;
-    }
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: correo,
+        password,
+        options: {
+          emailRedirectTo: "http://localhost:5173/verified",
+          data: { nombre },
+        },
+      });
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { nombre },
-        emailRedirectTo: "http://localhost:5173/home",
-      },
-    });
+      if (error) throw error;
 
-    if (error) {
-      setMensaje("❌ Error: " + error.message);
-    } else {
-      setMensaje(
-        "✅ Cuenta creada. Revisa tu correo para confirmar el registro."
-      );
-      setTimeout(() => navigate("/"), 4000);
+      setMensaje("✅ Revisa tu correo para confirmar tu cuenta.");
+      setTimeout(() => navigate("/pending"), 2000);
+    } catch (err) {
+      setMensaje(`❌ ${err.message}`);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <form
         onSubmit={handleRegister}
-        className="bg-white shadow-lg rounded-lg p-8 w-96"
+        className="bg-white p-8 rounded-2xl shadow-md w-96"
       >
-        <h1 className="text-2xl font-bold mb-4 text-center text-blue-700">
-          Crear cuenta 🧑‍🎓
+        <h1 className="text-2xl font-bold mb-6 text-center text-blue-700">
+          Registro de Usuario 🎓
         </h1>
 
         <input
@@ -58,14 +51,16 @@ export default function Register() {
           className="w-full border border-gray-300 rounded-lg p-2 mb-3"
           required
         />
+
         <input
           type="email"
-          placeholder="Correo institucional (@usc.edu.co)"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Correo institucional"
+          value={correo}
+          onChange={(e) => setCorreo(e.target.value)}
           className="w-full border border-gray-300 rounded-lg p-2 mb-3"
           required
         />
+
         <input
           type="password"
           placeholder="Contraseña"
@@ -77,7 +72,7 @@ export default function Register() {
 
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2 w-full transition"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg w-full transition"
         >
           Registrarme
         </button>
@@ -89,3 +84,5 @@ export default function Register() {
     </div>
   );
 }
+
+export default Register;
