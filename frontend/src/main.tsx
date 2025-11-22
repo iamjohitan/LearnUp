@@ -7,6 +7,6 @@ import RegisterPage from './pages/RegisterPage.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <LoginPage />
+    <RegisterPage />
   </StrictMode>,
 )

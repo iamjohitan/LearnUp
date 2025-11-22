@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate{
         const {data, error} = await supabase.auth.getUser(token);
 
         if(error|| !data?.user ) throw new UnauthorizedException('Token invalido o expirado')
-        
+            
         request.user = data.user;
         return true;
     }

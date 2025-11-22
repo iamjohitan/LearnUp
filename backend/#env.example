@@ -1,0 +1,12 @@
+#General
+
+PORT=
+
+#Conexion supabase
+SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+SUPABASE_ANON_KEY=
+
+#Conexion MongoDB
+MONGO_URI=
+MONGO_DB_NAME=

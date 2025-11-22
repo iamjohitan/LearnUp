@@ -1,4 +1,4 @@
-import {IsEmail, IsNotEmpty, Matches, MinLength} from 'class-validator';
+import {IsEmail, IsNotEmpty, IsInt, Matches, MinLength} from 'class-validator';
 
 export class RegisterUserDto {
   @IsEmail()
@@ -14,5 +14,5 @@ export class RegisterUserDto {
     @IsNotEmpty()
     @MinLength(2, { message: 'El nombre debe tener al menos 2 caracteres' })
     name: string;
-
 }
+
