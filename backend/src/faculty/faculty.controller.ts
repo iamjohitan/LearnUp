@@ -6,12 +6,12 @@ import { CreateFacultyDto } from './dto/create-faculty-dto';
 export class FacultyController {
     constructor(private readonly facultyService: FacultyService) {}
 
-    @Post()
+    @Post('crear')
     crear(@Body() dto: CreateFacultyDto) {
         return this.facultyService.crear(dto);
     }
 
-    @Get()
+    @Get('listar')
     listar() {
         return this.facultyService.listar();
     }
