@@ -64,4 +64,88 @@ export class UsersService {
 
     }
 
+    async listRoles(){
+        const{data, error} = await supabase
+        .from('role')
+        .select('*')
+        
+        if (error) throw new BadRequestException(error.message);
+
+        return data;
+    }
+
+
+    async listProfessors(){
+        const{data, error} = await supabase
+        .from('profiles')
+        .select('id,name,email,role!inner(name)')
+        .eq('role.name', 'profesor')
+
+        if(error) throw new BadRequestException(error.message)
+        return data;
+    }
+
+    async listMonitors(){
+        const{data, error} = await supabase
+        .from('profiles')
+        .select('id,name,email,role!inner(name)')
+        .eq('role.name', 'monitor')
+
+        if(error) throw new BadRequestException(error.message)
+        return data;
+    }
+
+        async listStudents(){
+        const{data, error} = await supabase
+        .from('profiles')
+        .select('id,name,email,role!inner(name)')
+        .eq('role.name', 'estudiante')
+
+        if(error) throw new BadRequestException(error.message)
+        return data;
+    }
+
+    async changeRole(userId: string, newRoleName: string){
+        const{data: role, error: roleError}  = await supabase
+        .from('role')
+        .select('id,name')
+        .eq('name', newRoleName)
+        .single();
+
+        if(roleError) throw new BadRequestException('El rol especificado no existe')
+
+        const{data, error} = await supabase
+        .from('profiles')
+        .update({role_id: role.id})
+        .eq('id', userId)
+        .select()
+        .single();
+
+        if(error) throw new BadRequestException(error.message);
+
+        return{
+            message:`Rol actualizado correctamente a ${role.name}`,
+            user: data,
+        };
+    }
+
+    async getUserGroups(userId: string){
+        const{data, error} = await supabase
+        .from('group_students')
+        .select(`
+            group_id,
+            groups (
+                id,
+                code,
+                course_id,
+                courses(name, code)
+            )
+        `)
+        .eq('student_id', userId);
+
+        if(error) throw new BadRequestException(error.message);
+
+        return data.map(row => row.groups)
+    }
+
 }
