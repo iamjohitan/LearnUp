@@ -22,6 +22,7 @@ export class UsersController {
     @Get('me')
     @UseGuards(AuthGuard)
     async getProfile(@Req() req ){
+        console.log('UsersController.getProfile - req.user:', req.user); 
         return this.usersService.getProfile(req.user.id);
     }
 

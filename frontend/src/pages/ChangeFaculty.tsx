@@ -13,7 +13,7 @@ type Faculty = {
   name: string;
 };
 
-export default function ChangeFacultyPage() {
+export default function ChangeFaculty() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [selected, setSelected] = useState<string>('');

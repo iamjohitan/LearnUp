@@ -63,10 +63,18 @@ export class AuthService {
         });
 
         if (error) throw new BadRequestException(error.message);
-        return data;
+        console.log('AuthService.login - data.session:', data.session);
+        console.log('AuthService.login - data.user:', data.user);
+        
+        return {
+            token: data.session?.access_token ?? null,
+            user: {
+                id: data.user?.id ?? '',
+                email: data.user?.email ?? '',
+                name: data.user?.user_metadata?.name ?? '',
+            },
+        };
     }  
 }
-
-
 
 
