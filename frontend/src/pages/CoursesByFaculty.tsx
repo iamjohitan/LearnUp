@@ -14,6 +14,9 @@ export default function CoursesByFaculty() {
   const [loadingCourses, setLoadingCourses] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // estado para evitar múltiples inscripciones simultáneas
+  const [enrolling, setEnrolling] = useState<string | null>(null);
+
   // obtener perfil del usuario al montar
   useEffect(() => {
     let mounted = true;
@@ -84,6 +87,46 @@ export default function CoursesByFaculty() {
     };
   }, [profile]);
 
+  // Inscribir en un grupo de un curso.
+  // Usa: GET /groups/course/:courseId  -> [`GroupsController.getGroupsByCourse`](backend/src/groups/groups.controller.ts)
+  // Luego POST /groups/:groupId/assign-student con { studentId } -> [`GroupsController.assignStudent`](backend/src/groups/groups.controller.ts)
+  const handleEnroll = async (courseId: string) => {
+    if (!profile) {
+      alert('Debes iniciar sesión para inscribirte');
+      return;
+    }
+    try {
+      setEnrolling(courseId);
+      const res = await axiosClient.get<any[]>(`/groups/course/${courseId}`);
+      const groups = res.data || [];
+      if (!groups.length) {
+        alert('No hay grupos disponibles para este curso');
+        return;
+      }
+      // Si hay un solo grupo, usarlo; si hay varios, pedir al usuario que elija por código
+      let chosenGroupId = groups[0].id;
+      if (groups.length > 1) {
+        const list = groups.map((g) => `${g.id} — ${g.code ?? g.id}`).join('\n');
+        const answer = window.prompt(`Elige el id del grupo para inscribirte:\n${list}`);
+        if (!answer) return;
+        const found = groups.find((g) => g.id === answer || g.code === answer);
+        if (!found) {
+          alert('Grupo no válido');
+          return;
+        }
+        chosenGroupId = found.id;
+      }
+
+      await axiosClient.post(`/groups/${chosenGroupId}/assign-student`, { studentId: profile.id });
+      alert('Inscripción realizada correctamente');
+    } catch (e: any) {
+      console.error('Error inscribiendo en grupo', e);
+      alert(e.response?.data?.message || e.message || 'Error al inscribirse');
+    } finally {
+      setEnrolling(null);
+    }
+  };
+
   const facultyName = useMemo(() => {
     // algunos endpoints no devuelven nombre de faculty; si no está, mostrar id
     return profile?.faculty_id ?? '';
@@ -99,7 +142,7 @@ export default function CoursesByFaculty() {
     <div className="min-h-screen bg-[#eef4ff] text-slate-900">
       <Navbar />
       <main className="mx-auto max-w-5xl px-6 py-8">
-        <h1 className="text-2xl font-bold mb-4">Mis cursos</h1>
+        <h1 className="text-2xl font-bold mb-4">Cursos disponibles para inscripcion</h1>
 
         {!profile.faculty_id ? (
           <div className="p-4 bg-yellow-50 border border-yellow-200 rounded space-y-3">
@@ -143,6 +186,13 @@ export default function CoursesByFaculty() {
                       <Link to={`/course/${c.id}/groups`} className="px-3 py-1 border rounded">
                         Ver grupos
                       </Link>
+                      <button
+                        onClick={() => handleEnroll(c.id)}
+                        className="px-3 py-1 border rounded"
+                        disabled={enrolling === c.id}
+                      >
+                        {enrolling === c.id ? 'Inscribiendo...' : 'Inscribirme'}
+                      </button>
                     </div>
                   </article>
                 ))}

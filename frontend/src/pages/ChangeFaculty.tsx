@@ -33,6 +33,8 @@ export default function ChangeFaculty() {
     ])
       .then(([pRes, fRes]) => {
         if (!mounted) return;
+        console.log('ChangeFaculty - profile:', pRes.data);
+        console.log('ChangeFaculty - faculties:', fRes.data);
         setProfile(pRes.data);
         setFaculties(fRes.data || []);
         // preselect first faculty if none selected
@@ -42,7 +44,14 @@ export default function ChangeFaculty() {
       })
       .catch((e) => {
         console.error('Error cargando perfil/facultades', e);
+        console.error('Error details:', e.response?.data || e.message);
         setError(e.response?.data?.message || e.message || 'Error desconocido');
+        // En caso de error, al menos carga el perfil si está disponible
+        if (e.response?.status !== 401) {
+          axiosClient.get<Profile>('/users/me').then(pRes => {
+            if (mounted) setProfile(pRes.data);
+          }).catch(() => {});
+        }
       })
       .finally(() => {
         if (mounted) setLoading(false);
