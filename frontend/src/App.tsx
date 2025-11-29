@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 text-slate-900">
@@ -36,7 +36,8 @@ function App() {
                 Contador con utilidades
               </h2>
               <p className="mt-1 text-sm text-slate-600">
-                Este bloque usa clases de Tailwind 4 para demostrar que está activo.
+                Este bloque usa clases de Tailwind 4 para demostrar que está
+                activo.
               </p>
             </div>
             <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
@@ -86,7 +87,7 @@ function App() {
         </aside>
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
