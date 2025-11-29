@@ -1,41 +1,8 @@
 import Navbar from '../components/Navbar'
 import hero from '../assets/images/hero.jpg'
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import axiosClient from '../api/axiosClient'
 
 export default function HomePage() {
-  const [groups, setGroups] = useState<any[]>([]);
-  const [loadingGroups, setLoadingGroups] = useState(true);
-  const [groupsErr, setGroupsErr] = useState<string | null>(null);
-
-  useEffect(() => {
-    let mounted = true;
-    setLoadingGroups(true);
-    axiosClient
-      .get('/users/me')
-      .then((r) => {
-        if (!mounted) return;
-        const userId = r.data?.id;
-        if (!userId) throw new Error('Perfil no disponible');
-        return axiosClient.get(`/users/${userId}/groups`);
-      })
-      .then((rg) => {
-        if (!mounted) return;
-        setGroups(rg?.data || []);
-      })
-      .catch((e) => {
-        console.error('HomePage: error cargando grupos', e);
-        setGroupsErr(e.response?.data?.message || e.message || 'Error cargando grupos');
-      })
-      .finally(() => {
-        if (mounted) setLoadingGroups(false);
-      });
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
   return (
     <div className="min-h-screen bg-[#eef4ff] text-slate-900">
       <Navbar />

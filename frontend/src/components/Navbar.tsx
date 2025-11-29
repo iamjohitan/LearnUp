@@ -9,7 +9,6 @@ type Profile = { id: string; name?: string; email?: string };
 
 const Navbar = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
@@ -19,10 +18,7 @@ const Navbar = () => {
       .then((r) => {
         if (mounted) setProfile(r.data);
       })
-      .catch((e) => console.error('Error obtener perfil navbar', e))
-      .finally(() => {
-        if (mounted) setLoading(false);
-      });
+      .catch((e) => console.error('Error obtener perfil navbar', e));
     return () => { mounted = false; };
   }, []);
 
