@@ -68,12 +68,12 @@ export default function GroupsChat({ groupId: propGroupId }: GroupsChatProps) {
     endRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-    const sendMessage = () => {
-    if (!newMessage.trim()) return;
+  const sendMessage = () => {
+    if (!groupId || !newMessage.trim()) return;
     const userId = localStorage.getItem('userId') || '';
-    const payload: Message = { groupId, content: newMessage.trim(), userId, timestamp: new Date().toISOString() };
-    // Emitir por socket
+    const payload: Message = { groupId, message: newMessage.trim(), userId, timestamp: new Date().toISOString() };
     socketRef.current?.emit('message', payload);
+    setMessages(prev => [...prev, payload]);
     setNewMessage('');
   };
 
@@ -92,7 +92,7 @@ export default function GroupsChat({ groupId: propGroupId }: GroupsChatProps) {
         {messages.map((m, idx) => (
           <div key={idx} style={{ marginBottom: 8 }}>
             <strong style={{ color: '#8cf' }}>{m.userId}</strong>
-            <div style={{ color: '#ddd' }}>{m.content}</div>
+            <div style={{ color: '#ddd' }}>{m.message}</div>
             <small style={{ color: '#666' }}>{new Date(m.timestamp || Date.now()).toLocaleString()}</small>
           </div>
         ))}

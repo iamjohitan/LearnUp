@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
 import Navbar from '../components/Navbar';
@@ -9,7 +9,6 @@ type Profile = { id: string; name?: string; email?: string; faculty_id?: string 
 
 export default function CoursesByFaculty() {
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [courses, setCourses] = useState<Course[]>([]);
   const [filtered, setFiltered] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingCourses, setLoadingCourses] = useState(false);
@@ -66,7 +65,6 @@ export default function CoursesByFaculty() {
 
         const withFacs = await Promise.all(detailPromises);
         if (!mounted) return;
-        setCourses(withFacs);
 
         const filteredCourses = withFacs.filter((c) =>
           (c.faculties || []).some((f) => f.id === profile.faculty_id),
