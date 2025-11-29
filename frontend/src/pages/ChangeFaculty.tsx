@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import axiosClient from '../api/axiosClient';
+import React, { useEffect, useState } from "react";
+import axiosClient from "../api/axiosClient";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 type Profile = {
   id: string;
@@ -16,140 +18,101 @@ type Faculty = {
 export default function ChangeFaculty() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [faculties, setFaculties] = useState<Faculty[]>([]);
-  const [selected, setSelected] = useState<string>('');
   const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    let mounted = true;
-    setLoading(true);
-    setError(null);
-
     Promise.all([
-      axiosClient.get<Profile>('/users/me'),
-      axiosClient.get<Faculty[]>('/faculty/listar'),
+      axiosClient.get<Profile>("/users/me"),
+      axiosClient.get<Faculty[]>("/faculty/listar"),
     ])
       .then(([pRes, fRes]) => {
-        if (!mounted) return;
-        console.log('ChangeFaculty - profile:', pRes.data);
-        console.log('ChangeFaculty - faculties:', fRes.data);
         setProfile(pRes.data);
         setFaculties(fRes.data || []);
-        // preselect first faculty if none selected
-        if (!selected && (fRes.data || []).length > 0) {
-          setSelected(fRes.data[0].id);
-        }
       })
-      .catch((e) => {
-        console.error('Error cargando perfil/facultades', e);
-        console.error('Error details:', e.response?.data || e.message);
-        setError(e.response?.data?.message || e.message || 'Error desconocido');
-        // En caso de error, al menos carga el perfil si está disponible
-        if (e.response?.status !== 401) {
-          axiosClient.get<Profile>('/users/me').then(pRes => {
-            if (mounted) setProfile(pRes.data);
-          }).catch(() => {});
-        }
+      .catch((err) => {
+        setError(err.response?.data?.message || "Error al cargar datos");
       })
-      .finally(() => {
-        if (mounted) setLoading(false);
-      });
-
-    return () => {
-      mounted = false;
-    };
+      .finally(() => setLoading(false));
   }, []);
 
-  const handleSubmit = async (e?: React.FormEvent) => {
-    e?.preventDefault();
-    setError(null);
-    setSuccess(null);
-
-    if (!selected) {
-      setError('Selecciona una facultad');
-      return;
-    }
-    if (!profile) {
-      setError('Perfil no cargado');
-      return;
-    }
-    if (profile.faculty_id !== null) {
-      setError('No puedes cambiar la facultad: ya tienes una asignada.');
-      return;
-    }
-
-    setSubmitting(true);
+  const handleSelect = async (facultyId: string) => {
     try {
-      const res = await axiosClient.patch('/users/faculty', { facultyId: selected });
-      setSuccess(res.data?.message || 'Facultad actualizada correctamente');
-      // actualizar estado local para bloquear futuros cambios
-      setProfile({ ...profile, faculty_id: selected });
+      await axiosClient.patch("/users/faculty", { facultyId });
+      navigate("/inicio");
     } catch (err: any) {
-      console.error('Error actualizando facultad', err);
-      setError(err.response?.data?.message || err.message || 'Error al actualizar');
-    } finally {
-      setSubmitting(false);
+      setError(err.response?.data?.message || "Error al actualizar facultad");
     }
   };
 
-  if (loading) {
-    return <div className="p-6">Cargando...</div>;
-  }
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#eef3ff] to-[#dceaff]">
+        Cargando...
+      </div>
+    );
 
-  if (!profile) {
-    return <div className="p-6 text-red-600">No se pudo cargar el perfil: {error}</div>;
-  }
+  if (!profile)
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#eef3ff] to-[#dceaff]">
+        No se pudo cargar el perfil
+      </div>
+    );
 
   return (
-    <div className="max-w-lg mx-auto p-6">
-      <h2 className="text-xl font-semibold mb-4">Cambiar Facultad</h2>
+    <div className="min-h-screen flex flex-col items-center px-4 py-10 bg-gradient-to-b from-[#eef3ff] to-[#dceaff]">
+      {/* LOGO */}
+      <img src={logo} alt="logo" className="w-24 h-24 mb-6 drop-shadow-md" />
 
+      <h2 className="text-3xl font-bold text-gray-800 mb-2">
+        {profile.faculty_id ? "Tu facultad" : "Selecciona tu facultad"}
+      </h2>
+
+      {error && (
+        <p className="bg-red-200 text-red-700 py-2 px-4 rounded-lg mb-4">
+          {error}
+        </p>
+      )}
+
+      {/* si ya tiene facultad */}
       {profile.faculty_id ? (
-        <div className="p-4 bg-yellow-50 border border-yellow-200 rounded">
-          <p className="mb-2">Ya tienes una facultad asignada y no puedes cambiarla:</p>
-          <p className="font-medium">{faculties.find(f => f.id === profile.faculty_id)?.name ?? profile.faculty_id}</p>
+        <div
+          className="
+          bg-white shadow-lg rounded-2xl p-6
+          max-w-md text-center border
+        "
+        >
+          <p className="text-gray-700 mb-1">Ya tienes la facultad:</p>
+          <p className="text-xl font-semibold text-gray-900">
+            {faculties.find((f) => f.id === profile.faculty_id)?.name}
+          </p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Selecciona la facultad</label>
-            <select
-              value={selected}
-              onChange={(e) => setSelected(e.target.value)}
-              className="w-full px-3 py-2 rounded border bg-white"
-              disabled={submitting}
-            >
-              {faculties.map((f) => (
-                <option key={f.id} value={f.id}>
-                  {f.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {error && <div className="text-red-600">{error}</div>}
-          {success && <div className="text-green-600">{success}</div>}
-
-          <div className="flex gap-2">
+        <div
+          className="
+          grid grid-cols-1 sm:grid-cols-2 gap-6 
+          mt-8 w-full max-w-3xl
+        "
+        >
+          {faculties.map((fac) => (
             <button
-              type="submit"
-              onClick={handleSubmit}
-              disabled={submitting}
-              className="px-4 py-2 bg-indigo-600 text-white rounded disabled:opacity-50"
+              key={fac.id}
+              onClick={() => handleSelect(fac.id)}
+              className="
+                bg-white
+                rounded-2xl p-6 shadow-md
+                hover:shadow-xl hover:-translate-y-1 
+                transition-all border
+              "
             >
-              {submitting ? 'Guardando...' : 'Guardar facultad'}
+              <p className="text-xl font-semibold text-gray-800 text-center">
+                {fac.name}
+              </p>
             </button>
-            <button
-              type="button"
-              onClick={() => { setSelected(''); setError(null); setSuccess(null); }}
-              className="px-3 py-2 border rounded"
-            >
-              Limpiar
-            </button>
-          </div>
-        </form>
+          ))}
+        </div>
       )}
     </div>
   );

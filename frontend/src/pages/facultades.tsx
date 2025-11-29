@@ -1,47 +1,117 @@
-import Navbar from '../components/Navbar'
-import ingenieriaImg from '../assets/images/ingenieria.jpg'
-import saludImg from '../assets/images/salud.jpg'
-import quimicaImg from '../assets/images/quimica.jpg'
-import musicaImg from '../assets/images/musica.jpg'
+import Navbar from "../components/Navbar";
+import ingenieriaImg from "../assets/images/ingenieria.jpg";
+import saludImg from "../assets/images/salud.jpg";
+import quimicaImg from "../assets/images/quimica.jpg";
+import musicaImg from "../assets/images/musica.jpg";
 
 type Faculty = {
-  name: string
-  description: string
-  programs: string[]
-  color: string
-  image: string
-}
+  name: string;
+  description: string;
+  programs: string[];
+  color: string;
+  image: string;
+};
 
 const faculties: Faculty[] = [
   {
-    name: 'Ingenierías',
-    description: 'Tecnología, innovación y resolución de problemas complejos.',
-    programs: ['Sistemas', 'Industrial', 'Ambiental'],
-    color: 'from-[#1e3a8a] via-[#2563eb] to-[#38bdf8]',
-    image: ingenieriaImg,
-  },
-  {
-    name: 'Ciencias de la Salud',
-    description: 'Formación integral con énfasis en bienestar y cuidado humano.',
-    programs: ['Medicina', 'Enfermería', 'Psicología'],
-    color: 'from-[#0f172a] via-[#1d4ed8] to-[#22c55e]',
+    name: "Salud",
+    description:
+      "Ofrece programas como Medicina, Enfermería, Fisioterapia, Odontología, Psicología, Fonoaudiología y Terapia Respiratoria.",
+    programs: [
+      "Medicina",
+      "Enfermería",
+      "Fisioterapia",
+      "Odontología",
+      "Psicología",
+      "Fonoaudiología",
+      "Terapia Respiratoria",
+    ],
+    color: "from-[#0f172a] via-[#1d4ed8] to-[#22c55e]",
     image: saludImg,
   },
   {
-    name: 'Química',
-    description: 'Investigación, laboratorio y ciencia aplicada al servicio de la sociedad.',
-    programs: ['Química Pura', 'Bioquímica', 'Materiales'],
-    color: 'from-[#0f172a] via-[#2563eb] to-[#22d3ee]',
+    name: "Ingeniería",
+    description:
+      "Incluye carreras como Ingeniería Civil, de Sistemas, Industrial, Química, Electrónica, en Energías y Bioingeniería. También ofrece posgrados relacionados con informática y logística.",
+    programs: [
+      "Civil",
+      "Sistemas",
+      "Industrial",
+      "Química",
+      "Electrónica",
+      "Energías",
+      "Bioingeniería",
+    ],
+    color: "from-[#1e3a8a] via-[#2563eb] to-[#38bdf8]",
+    image: ingenieriaImg,
+  },
+  {
+    name: "Derecho",
+    description:
+      "Es pionera en la región y ofrece programas como Derecho y posgrados como especializaciones en Derecho Administrativo, Penal y de Familia.",
+    programs: [
+      "Derecho",
+      "Especialización en Derecho Administrativo",
+      "Especialización en Derecho Penal",
+      "Especialización en Derecho de Familia",
+    ],
+    color: "from-[#7f1d1d] via-[#b91c1c] to-[#f87171]",
+    image:
+      "https://concepto.de/wp-content/uploads/2012/03/derecho-ley-e1552664252875.jpg",
+  },
+  {
+    name: "Ciencias Económicas y Empresariales",
+    description:
+      "Cuenta con programas como Contaduría Pública, Administración de Empresas y Finanzas y Negocios Internacionales.",
+    programs: [
+      "Contaduría Pública",
+      "Administración de Empresas",
+      "Finanzas",
+      "Negocios Internacionales",
+    ],
+    color: "from-[#78350f] via-[#ea580c] to-[#fcd34d]",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJAEwanBd5qz_f1psiQk8CUKEp-9deFjIwdg&s",
+  },
+  {
+    name: "Educación",
+    description:
+      "Ofrece posgrados como maestrías en Educación Ambiental, Educación e Inglés, y especializaciones como Pedagogía Infantil.",
+    programs: [
+      "Maestría en Educación Ambiental",
+      "Maestría en Educación e Inglés",
+      "Pedagogía Infantil",
+    ],
+    color: "from-[#4c1d95] via-[#7e22ce] to-[#c084fc]",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-0w0fKVIKsf9rwpEaeJAyMsqowASSeAnbyw&s",
+  },
+  {
+    name: "Ciencias Básicas",
+    description:
+      "Ofrece el Doctorado en Ciencias Aplicadas y la Maestría en Química Industrial.",
+    programs: [
+      "Doctorado en Ciencias Aplicadas",
+      "Maestría en Química Industrial",
+    ],
+    color: "from-[#065f46] via-[#10b981] to-[#6ee7b7]",
     image: quimicaImg,
   },
   {
-    name: 'Artes y Humanidades',
-    description: 'Creatividad, cultura y expresión en todas sus formas.',
-    programs: ['Música', 'Literatura', 'Historia del Arte'],
-    color: 'from-[#0f172a] via-[#4338ca] to-[#f472b6]',
+    name: "Humanidades y Artes",
+    description:
+      "Programas relacionados con creatividad, cultura y expresión en diversas áreas artísticas y humanísticas.",
+    programs: [
+      "Música",
+      "Literatura",
+      "Historia del Arte",
+      "Filosofía",
+      "Comunicación",
+    ],
+    color: "from-[#0f172a] via-[#4338ca] to-[#f472b6]",
     image: musicaImg,
   },
-]
+];
 
 export default function FacultadesPage() {
   return (
@@ -58,7 +128,8 @@ export default function FacultadesPage() {
               Explora las áreas de conocimiento de LearnUp
             </h1>
             <p className="text-lg text-slate-700">
-              Programas, enfoques y comunidades listos para que encuentres tu camino académico.
+              Programas, enfoques y comunidades listos para que encuentres tu
+              camino académico.
             </p>
             <div className="flex flex-wrap gap-3">
               <button className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow transition hover:bg-blue-700">
@@ -84,7 +155,8 @@ export default function FacultadesPage() {
                   ))}
                 </div>
                 <p className="mt-4 text-sm text-slate-600">
-                  Elige una facultad y descubre programas, foros y eventos asociados.
+                  Elige una facultad y descubre programas, foros y eventos
+                  asociados.
                 </p>
               </div>
             </div>
@@ -105,10 +177,14 @@ export default function FacultadesPage() {
                   loading="lazy"
                 />
               </div>
-              <div className={`mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r ${faculty.color} px-3 py-1 text-xs font-semibold uppercase text-white shadow`}>
+              <div
+                className={`mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r ${faculty.color} px-3 py-1 text-xs font-semibold uppercase text-white shadow`}
+              >
                 {faculty.name}
               </div>
-              <p className="mt-3 text-base text-slate-700">{faculty.description}</p>
+              <p className="mt-3 text-base text-slate-700">
+                {faculty.description}
+              </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {faculty.programs.map((program) => (
                   <span
@@ -132,5 +208,5 @@ export default function FacultadesPage() {
         </section>
       </main>
     </div>
-  )
+  );
 }

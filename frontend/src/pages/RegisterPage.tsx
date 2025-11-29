@@ -26,12 +26,16 @@ function RegisterPage() {
     <div className="min-h-screen bg-gradient-to-b from-[#eef3ff] to-[#dceaff] flex justify-center items-center px-4">
       <div className="w-full max-w-md flex flex-col items-center">
         {/* LOGO */}
-        <img src={logo} alt="logo" className="w-24 h-24 mb-6" />
+        <img
+          src={logo}
+          alt="logo"
+          className="w-28 h-28 mb-8 drop-shadow-xl animate-fadeIn"
+        />
 
         <h2 className="text-4xl font-extrabold mb-2 text-center">
           Crea tu cuenta
         </h2>
-        <div className="w-28 h-1 bg-blue-600 rounded-full mb-8"></div>
+        <div className="w-90 h-1 bg-blue-600 rounded-full mb-8"></div>
 
         {/* FORM */}
         <form
@@ -88,7 +92,7 @@ function RegisterPage() {
         </p>
 
         <p className="mt-10 text-gray-400 text-xs">
-          © 2025 LearnUp. All rights reserved.
+          © 2025 LearnUp. Todos los derechos reservados.
         </p>
       </div>
     </div>
