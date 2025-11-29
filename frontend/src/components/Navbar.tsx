@@ -57,6 +57,9 @@ const Navbar = () => {
         <Link to="/facultades" className="px-4 py-2 text-sm font-semibold text-[#1E3A8A] bg-white/70 shadow rounded-full hover:bg-white transition-all duration-200">
           Facultades
         </Link>
+        <Link to="/courses" className="px-4 py-2 text-sm font-semibold text-[#1E3A8A] bg-white/70 shadow rounded-full hover:bg-white transition-all duration-200">
+          Cursos
+        </Link>
         <Link to="/groups" className="px-4 py-2 text-sm font-semibold text-[#1E3A8A] bg-white/70 shadow rounded-full hover:bg-white transition-all duration-200">
           Foros
         </Link>

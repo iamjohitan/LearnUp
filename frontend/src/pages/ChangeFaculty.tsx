@@ -35,7 +35,6 @@ export default function ChangeFaculty() {
         if (!mounted) return;
         console.log('ChangeFaculty - profile:', pRes.data);
         console.log('ChangeFaculty - faculties:', fRes.data);
-        console.log('ChangeFaculty - faculties data:', fRes.data);
         setProfile(pRes.data);
         setFaculties(fRes.data || []);
         // preselect first faculty if none selected
