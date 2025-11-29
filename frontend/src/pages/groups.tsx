@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import axiosClient from '../api/axiosClient';
+import { useParams } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 
 type Message = {
