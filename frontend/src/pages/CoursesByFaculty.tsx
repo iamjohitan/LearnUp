@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar';
 type Faculty = { id: string; name: string };
 type Course = { id: string; name?: string; code?: string; description?: string; faculties?: Faculty[] };
 type Profile = { id: string; name?: string; email?: string; faculty_id?: string | null };
+type GroupOption = { id: string; code?: string };
 
 export default function CoursesByFaculty() {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -17,6 +18,11 @@ export default function CoursesByFaculty() {
 
   // estado para evitar múltiples inscripciones simultáneas
   const [enrolling, setEnrolling] = useState<string | null>(null);
+
+  // nuevo: control de grupos por curso y UI de selección
+  const [groupsByCourse, setGroupsByCourse] = useState<Record<string, GroupOption[]>>({});
+  const [expandedCourse, setExpandedCourse] = useState<string | null>(null);
+  const [selectedGroup, setSelectedGroup] = useState<Record<string, string>>({});
 
   // obtener perfil del usuario al montar
   useEffect(() => {
@@ -89,38 +95,52 @@ export default function CoursesByFaculty() {
     };
   }, [profile]);
 
-  // Inscribir en un grupo de un curso.
-  // Usa: GET /groups/course/:courseId  -> [`GroupsController.getGroupsByCourse`](backend/src/groups/groups.controller.ts)
-  // Luego POST /groups/:groupId/assign-student con { studentId } -> [`GroupsController.assignStudent`](backend/src/groups/groups.controller.ts)
-  const handleEnroll = async (courseId: string) => {
+  // nueva función: obtener grupos para un curso y guardar en estado
+  const fetchGroupsForCourse = async (courseId: string) => {
+    try {
+      const res = await axiosClient.get<GroupOption[]>(`/groups/course/${courseId}`);
+      const groups: GroupOption[] = res.data || [];
+      setGroupsByCourse((prev) => ({ ...prev, [courseId]: groups }));
+      // preselect primer grupo si existe
+      if (groups.length > 0) {
+        setSelectedGroup((prev) => ({ ...prev, [courseId]: groups[0].id }));
+      }
+    } catch (e) {
+      console.error('Error fetching groups for course', e);
+      setGroupsByCourse((prev) => ({ ...prev, [courseId]: [] }));
+    }
+  };
+
+  // Inscribir: ahora usa el selectedGroup en lugar de prompt
+  const handleEnrollClick = async (courseId: string) => {
     if (!profile) {
       alert('Debes iniciar sesión para inscribirte');
       return;
     }
+
+    // Si no hemos cargado grupos para este curso, cargarlos y expandir
+    if (!groupsByCourse[courseId]) {
+      await fetchGroupsForCourse(courseId);
+    }
+    setExpandedCourse(courseId === expandedCourse ? null : courseId);
+  };
+
+  const handleConfirmEnroll = async (courseId: string) => {
+    if (!profile) {
+      alert('Debes iniciar sesión para inscribirte');
+      return;
+    }
+    const groupId = selectedGroup[courseId];
+    if (!groupId) {
+      alert('Selecciona un grupo');
+      return;
+    }
+
     try {
       setEnrolling(courseId);
-      const res = await axiosClient.get<any[]>(`/groups/course/${courseId}`);
-      const groups = res.data || [];
-      if (!groups.length) {
-        alert('No hay grupos disponibles para este curso');
-        return;
-      }
-      // Si hay un solo grupo, usarlo; si hay varios, pedir al usuario que elija por código
-      let chosenGroupId = groups[0].id;
-      if (groups.length > 1) {
-        const list = groups.map((g) => `${g.id} — ${g.code ?? g.id}`).join('\n');
-        const answer = window.prompt(`Elige el id del grupo para inscribirte:\n${list}`);
-        if (!answer) return;
-        const found = groups.find((g) => g.id === answer || g.code === answer);
-        if (!found) {
-          alert('Grupo no válido');
-          return;
-        }
-        chosenGroupId = found.id;
-      }
-
-      await axiosClient.post(`/groups/${chosenGroupId}/assign-student`, { studentId: profile.id });
+      await axiosClient.post(`/groups/${groupId}/assign-student`, { studentId: profile.id });
       alert('Inscripción realizada correctamente');
+      setExpandedCourse(null);
     } catch (e: any) {
       console.error('Error inscribiendo en grupo', e);
       alert(e.response?.data?.message || e.message || 'Error al inscribirse');
@@ -181,20 +201,58 @@ export default function CoursesByFaculty() {
                       <div className="text-sm text-gray-500">{(c.faculties || []).map((f) => f.name).join(', ')}</div>
                     </div>
                     {c.description && <p className="mt-2 text-sm text-gray-700">{c.description}</p>}
-                    <div className="mt-3 flex gap-2">
-                      <Link to={`/course/${c.id}`} className="px-3 py-1 bg-indigo-600 text-white rounded">
-                        Ver detalles
-                      </Link>
-                      <Link to={`/course/${c.id}/groups`} className="px-3 py-1 border rounded">
-                        Ver grupos
-                      </Link>
-                      <button
-                        onClick={() => handleEnroll(c.id)}
-                        className="px-3 py-1 border rounded"
-                        disabled={enrolling === c.id}
-                      >
-                        {enrolling === c.id ? 'Inscribiendo...' : 'Inscribirme'}
-                      </button>
+                    <div className="mt-3 flex flex-col gap-2">
+                      <div className="flex gap-2">
+                        <Link to={`/course/${c.id}`} className="px-3 py-1 bg-indigo-600 text-white rounded">
+                          Ver detalles
+                        </Link>
+                        <Link to={`/course/${c.id}/groups`} className="px-3 py-1 border rounded">
+                          Ver grupos
+                        </Link>
+                        <button
+                          onClick={() => handleEnrollClick(c.id)}
+                          className="px-3 py-1 border rounded"
+                          disabled={enrolling === c.id}
+                        >
+                          {expandedCourse === c.id ? 'Cerrar' : 'Inscribirme'}
+                        </button>
+                      </div>
+
+                      {/* selector desplegable para inscribirse (solo si expandedCourse === c.id) */}
+                      {expandedCourse === c.id && (
+                        <div className="mt-2 flex items-center gap-2">
+                          {(!groupsByCourse[c.id] || groupsByCourse[c.id].length === 0) ? (
+                            <div className="text-sm text-gray-600">Cargando grupos o no hay grupos disponibles...</div>
+                          ) : (
+                            <>
+                              <select
+                                value={selectedGroup[c.id] || groupsByCourse[c.id][0]?.id || ''}
+                                onChange={(e) => setSelectedGroup((prev) => ({ ...prev, [c.id]: e.target.value }))}
+                                className="px-3 py-1 border rounded"
+                              >
+                                {groupsByCourse[c.id].map((g) => (
+                                  <option key={g.id} value={g.id}>
+                                    {g.code ?? g.id}
+                                  </option>
+                                ))}
+                              </select>
+                              <button
+                                onClick={() => handleConfirmEnroll(c.id)}
+                                disabled={enrolling === c.id}
+                                className="px-3 py-1 bg-indigo-600 text-white rounded"
+                              >
+                                {enrolling === c.id ? 'Inscribiendo...' : 'Confirmar inscripción'}
+                              </button>
+                              <button
+                                onClick={() => setExpandedCourse(null)}
+                                className="px-3 py-1 border rounded"
+                              >
+                                Cancelar
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </article>
                 ))}

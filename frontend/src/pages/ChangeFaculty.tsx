@@ -31,6 +31,9 @@ export default function ChangeFaculty() {
       .then(([pRes, fRes]) => {
         setProfile(pRes.data);
         setFaculties(fRes.data || []);
+        if (pRes.data?.faculty_id) {
+          navigate("/inicio");
+        }
       })
       .catch((err) => {
         setError(err.response?.data?.message || "Error al cargar datos");
