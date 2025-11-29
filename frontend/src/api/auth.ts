@@ -35,7 +35,7 @@ export const login = async(credentials: LoginCredentials): Promise<AuthResponse>
 // Llama al endpoinjt de registro e inicia sesion si es exitoso
 
 export const register = async(credentials: RegisterCredentials): Promise<RegisterSuccessResponse> =>{
-    const response = await axiosClient.post<any>('/auth/register', credentials);
+    await axiosClient.post('/auth/register', credentials);
 
     return{
         message: 'Registro exitoso. Revisa tu correo electronico para verificar',
