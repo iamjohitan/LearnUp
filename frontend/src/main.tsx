@@ -1,13 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
-<<<<<<< HEAD
-=======
+import App from './App'
+import GroupsChat from './pages/groups'
+import Login from './pages/LoginPage'
 
->>>>>>> b378ddf1855c340426680d8661a8d2ae7dc25edf
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <GroupsChat groupId={'2ad6ddaa-72a1-432c-9014-6ffcd7122a11'} />
   </StrictMode>,
 )

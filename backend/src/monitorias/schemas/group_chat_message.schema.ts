@@ -15,6 +15,9 @@ export class GroupChatMessage{
     @Prop({ required: true})
     message: string;
 
+    @Prop()
+    userName?: string;
+
     @Prop({ default: () => new Date()})
     timestamp: Date;
 
