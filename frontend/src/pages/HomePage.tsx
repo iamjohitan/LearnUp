@@ -1,7 +1,41 @@
 import Navbar from '../components/Navbar'
 import hero from '../assets/images/hero.jpg'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import axiosClient from '../api/axiosClient'
 
 export default function HomePage() {
+  const [groups, setGroups] = useState<any[]>([]);
+  const [loadingGroups, setLoadingGroups] = useState(true);
+  const [groupsErr, setGroupsErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    setLoadingGroups(true);
+    axiosClient
+      .get('/users/me')
+      .then((r) => {
+        if (!mounted) return;
+        const userId = r.data?.id;
+        if (!userId) throw new Error('Perfil no disponible');
+        return axiosClient.get(`/users/${userId}/groups`);
+      })
+      .then((rg) => {
+        if (!mounted) return;
+        setGroups(rg?.data || []);
+      })
+      .catch((e) => {
+        console.error('HomePage: error cargando grupos', e);
+        setGroupsErr(e.response?.data?.message || e.message || 'Error cargando grupos');
+      })
+      .finally(() => {
+        if (mounted) setLoadingGroups(false);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#eef4ff] text-slate-900">
       <Navbar />
@@ -20,23 +54,18 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
-              <button className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-blue-700">
+              <Link to="/facultades" className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-blue-700">
                 Explorar Facultades
-              </button>
-              <button className="rounded-xl bg-white px-6 py-3 text-sm font-semibold text-blue-700 shadow ring-1 ring-blue-100 transition hover:bg-blue-50">
-                Ir a Foros
-              </button>
+              </Link>
+              <Link to="/courses" className="rounded-xl bg-white px-6 py-3 text-sm font-semibold text-blue-700 shadow ring-1 ring-blue-100 transition hover:bg-blue-50">
+                Cursos por facultad
+              </Link>
             </div>
           </div>
 
           <div className="flex justify-end">
-            <div className="w-full max-w-xl overflow-hidden rounded-3xl shadow-[0_20px_45px_-15px_rgba(30,58,138,0.45)] ring-1 ring-slate-200">
-              <img
-                src={hero}
-                alt="Campus LearnUp"
-                className="h-full w-full max-h-[420px] object-cover"
-                loading="lazy"
-              />
+            <div className="w-full max-w-xl overflow-hidden rounded-3xl p-4">
+              <img src={hero}/>
             </div>
           </div>
         </section>
