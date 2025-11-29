@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 import axiosClient from '../api/axiosClient';
 import { io, Socket } from 'socket.io-client';
 
@@ -68,18 +67,11 @@ export default function GroupsChat({ groupId: propGroupId }: GroupsChatProps) {
     endRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const sendMessage = () => {
-    if (!newMessage.trim() || !groupId) return;
-    const userId = localStorage.getItem('userId') || 'anonymous';
-    const userName = localStorage.getItem('userName') || localStorage.getItem('name') || undefined
-    const payload = {
-      groupId,
-      message: newMessage.trim(),
-      userId,
-      userName,
-      timestamp: new Date().toISOString(),
-    } as Message;
-
+    const sendMessage = () => {
+    if (!newMessage.trim()) return;
+    const userId = localStorage.getItem('userId') || '';
+    const payload: Message = { groupId, content: newMessage.trim(), userId, timestamp: new Date().toISOString() };
+    // Emitir por socket
     socketRef.current?.emit('message', payload);
     setNewMessage('');
   };
@@ -93,17 +85,14 @@ export default function GroupsChat({ groupId: propGroupId }: GroupsChatProps) {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h2 className="text-2xl font-semibold mb-4">Chat del grupo</h2>
-
-      <div className="bg-gray-900 border border-gray-800 rounded-lg h-96 overflow-y-auto p-4 space-y-3">
-        {messages.map((m, i) => (
-          <div key={i} className="flex flex-col">
-            <div className="text-xs text-gray-400">{new Date(m.timestamp).toLocaleString()}</div>
-            <div className="mt-1 inline-block px-3 py-2 rounded-lg bg-gray-800 text-gray-100">
-              <div className="text-sm font-medium text-indigo-300">{m.userName ?? m.userId}</div>
-              <div className="text-sm">{m.message}</div>
-            </div>
+    <div style={{ maxWidth: 800, margin: '0 auto', padding: 16 }}>
+      <h3>Chat del grupo</h3>
+      <div style={{ border: '1px solid #333', height: 400, overflowY: 'auto', padding: 12, background: '#111' }}>
+        {messages.map((m, idx) => (
+          <div key={idx} style={{ marginBottom: 8 }}>
+            <strong style={{ color: '#8cf' }}>{m.userId}</strong>
+            <div style={{ color: '#ddd' }}>{m.content}</div>
+            <small style={{ color: '#666' }}>{new Date(m.timestamp || Date.now()).toLocaleString()}</small>
           </div>
         ))}
         <div ref={endRef} />
