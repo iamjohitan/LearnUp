@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axiosClient from '../api/axiosClient';
 import { io, Socket } from 'socket.io-client';
 
@@ -67,7 +67,7 @@ export default function GroupsChat({ groupId }: GroupsChatProps) {
     const sendMessage = () => {
     if (!newMessage.trim()) return;
     const userId = localStorage.getItem('userId') || '';
-    const payload: Message = { groupId, message: newMessage.trim(), userId, timestamp: new Date() };
+    const payload: Message = { groupId, content: newMessage.trim(), userId, timestamp: new Date().toISOString() };
     // Emitir por socket
     socketRef.current?.emit('message', payload);
     // Añadir localmente para feedback inmediato
@@ -82,7 +82,7 @@ export default function GroupsChat({ groupId }: GroupsChatProps) {
         {messages.map((m, idx) => (
           <div key={idx} style={{ marginBottom: 8 }}>
             <strong style={{ color: '#8cf' }}>{m.userId}</strong>
-            <div style={{ color: '#ddd' }}>{m.message}</div>
+            <div style={{ color: '#ddd' }}>{m.content}</div>
             <small style={{ color: '#666' }}>{new Date(m.timestamp || Date.now()).toLocaleString()}</small>
           </div>
         ))}
