@@ -26,6 +26,7 @@ export const login = async(credentials: LoginCredentials): Promise<AuthResponse>
 
     //Si el login es existoso se guarda el token en el local storage
     localStorage.setItem('accessToken', response.data.token);
+    localStorage.setItem('userId', response.data.user.id);
 
     return response.data
 };
