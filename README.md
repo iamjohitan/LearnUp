@@ -134,9 +134,9 @@ npm start
 ---
 
 ## 📷 Capturas
-
+![Login](assets/Login.png)
+![ChooseMajor](assets/Choose-Major.png)
 ![Home](assets/LU-Pic.jpeg)
-
 
 ---
 
