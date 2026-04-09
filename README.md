@@ -135,10 +135,8 @@ npm start
 
 ## 📷 Capturas
 
-
-```markdown
 ![Home](assets/LU-Pic.jpeg)
-```
+
 
 ---
 
