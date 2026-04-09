@@ -24,7 +24,8 @@ El sistema está dividido en dos partes principales:
 - Actualización dinámica de información sin recargar la página  
 
 ### Gestión de Datos
-- Persistencia de datos usando PostgreSQL (Supabase)  
+- Persistencia de datos usando PostgreSQL (Supabase)
+- Uso de MongoDB para datos no relacionales  
 - Manejo estructurado de información desde el backend  
 - Integración con servicios backend-as-a-service  
 
@@ -42,7 +43,8 @@ El sistema está dividido en dos partes principales:
 - **Express** - Framework backend  
 - **WebSockets** - Comunicación en tiempo real  
 - **Supabase** - Backend as a Service  
-- **PostgreSQL** - Base de datos  
+- **PostgreSQL** - Base de datos
+- - **MongoDB** - Base de datos NoSQL  
 
 ### Frontend
 - **React** - Biblioteca de UI  
@@ -133,10 +135,9 @@ npm start
 
 ## 📷 Capturas
 
-Agrega aquí imágenes de tu proyecto:
 
 ```markdown
-![Home](assets/home.png)
+![Home](assets/LU-Pic.jepg)
 ![Chat en tiempo real](assets/chat.png)
 ```
 
@@ -149,7 +150,8 @@ El sistema sigue una arquitectura cliente-servidor:
 - El frontend en React consume la API REST  
 - El backend en Express maneja la lógica del sistema  
 - WebSockets permiten comunicación en tiempo real  
-- Supabase gestiona la base de datos PostgreSQL  
+- Supabase gestiona la base de datos PostgreSQL
+- MongoDB gestiona datos no estructurados y dinámicos 
 
 ---
 
@@ -170,11 +172,18 @@ Este proyecto no está completamente finalizado, pero demuestra la implementaci�
 
 ## 🗄️ Base de Datos (Supabase)
 
-El proyecto utiliza PostgreSQL a través de Supabase para:
+El proyecto implementa una arquitectura híbrida utilizando bases de datos relacionales y no relacionales:
 
-- Almacenamiento de datos  
-- Gestión de información de usuarios  
-- Persistencia de eventos y datos del sistema  
+### PostgreSQL (Supabase)
+- Almacenamiento de datos estructurados  
+- Manejo de relaciones entre entidades  
+- Persistencia principal del sistema  
+
+### MongoDB
+- Almacenamiento de datos no estructurados  
+- Manejo de información flexible (ej: eventos, logs o datos en tiempo real)  
+- Soporte para funcionalidades dinámicas del sistema  
+
 
 ---
 
@@ -191,7 +200,9 @@ Este proyecto fue desarrollado como práctica para fortalecer habilidades en:
 
 ## 👨‍💻 Autor
 
-- Esteban Rojas  
+- Esteban Marta Rojas
+- Johan Lucumi Palacios
+- Erick Dussan Velazco
 - GitHub: https://github.com/iamjohitan  
 
 ---
