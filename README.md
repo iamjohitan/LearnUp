@@ -137,8 +137,7 @@ npm start
 
 
 ```markdown
-![Home](assets/LU-Pic.jepg)
-![Chat en tiempo real](assets/chat.png)
+![Home](assets/LU-Pic.jpeg)
 ```
 
 ---
